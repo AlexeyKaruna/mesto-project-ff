@@ -2,7 +2,7 @@ import "./index.css";
 import { initialCards } from "./components/initialCards.js";
 import { createCard, likeCard, deleteCard } from "./components/card.js";
 import { closeModal, openModal } from "./components/modal.js";
-import avatarImage from "../images/avatar.jpg";
+import avatarImage from "../images/main-avatar.jpg";
 
 // @todo: Темплейт карточки
 const cardTemplate = document.querySelector("#card-template");
@@ -11,12 +11,12 @@ const cardTemplate = document.querySelector("#card-template");
 const placesList = document.querySelector(".places__list");
 const profileTitle = document.querySelector(".profile__title");
 const profileImage = document.querySelector(".profile__image");
+const profileDescription = document.querySelector(".profile__description");
+const formEditProfile = document.forms.editProfile;
 const nameProfile = formEditProfile.elements.name;
 const professionProfile = formEditProfile.elements.description;
-const profileDescription = document.querySelector(".profile__description");
 const profilePopupOpener = document.querySelector(".profile__edit-button");
 const popupFormProfile = document.querySelector(".popup_type_edit");
-const formEditProfile = document.forms.editProfile;
 const cardPopupOpener = document.querySelector(".profile__add-button");
 const popupFormCard = document.querySelector(".popup_type_new-card");
 const formNewPlace = document.forms.newPlace;
@@ -38,7 +38,7 @@ initialCards.forEach((element) => {
 profileImage.setAttribute("style", `background-image: URL(${avatarImage})`);
 
 // Добавление класса анимации на модальные окна
-[popupFormProfile, popupFormCard, popupViewImage].forEach((element) => {
+document.querySelectorAll(".popup").forEach((element) => {
   element.classList.add("popup_is-animated");
 });
 
@@ -53,10 +53,10 @@ profilePopupOpener.addEventListener("click", () => {
 cardPopupOpener.addEventListener("click", () => openModal(popupFormCard));
 
 // Функция просмотра изображения карточки
-function viewImage(evt) {
-  popupImage.alt = evt.target.alt;
-  popupImage.src = evt.target.currentSrc;
-  captionImage.textContent = evt.target.alt;
+function viewImage(cardLink, cardName) {
+  popupImage.src = cardLink;
+  popupImage.alt = cardName;
+  captionImage.textContent = cardName;
   openModal(popupViewImage);
 }
 
@@ -70,9 +70,10 @@ function viewImage(evt) {
 });
 
 // Обработчик события закрытия модального окна по крестику
+
 buttonClosePopupList.forEach((element) => {
+  const openModalWindow = document.querySelector(".popup_is-opened");
   element.addEventListener("click", () => {
-    const openModalWindow = document.querySelector(".popup_is-opened");
     closeModal(openModalWindow);
   });
 });

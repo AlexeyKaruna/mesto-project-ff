@@ -3,15 +3,17 @@ function openModal(element) {
   document.addEventListener("keydown", closeByEscape);
 }
 
-function closeModal(element) {
-  element.classList.remove("popup_is-opened");
-  document.removeEventListener("keydown", closeByEscape);
+function closeModal() {
+  if (document.querySelector(".popup_is-opened")) {
+    const openedModal = document.querySelector(".popup_is-opened");
+    openedModal.classList.remove("popup_is-opened");
+  }
+  window.removeEventListener("keydown", closeByEscape);
 }
 
-function closeByEscape(element) {
-  if (element.key === "Escape") {
-    const openModalWindow = document.querySelector(".popup_is-opened");
-    closeModal(openModalWindow);
+function closeByEscape(evt) {
+  if (evt.key === "Escape") {
+    closeModal();
   }
 }
 
